@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+//В последовательности записаны целые числа от 1 до N в произвольном порядке, но одно из чисел пропущено (остальные встречаются ровно по одному разу). N заранее неизвестно. Определить пропущенное число
+
+function missNum (missedNumber){
+
+        missedNumber = missedNumber.sort(function (a, b) {
+            return a-b;
+        });
+        let count = missedNumber[missedNumber.length - 1];
+        let requiredNumber;
+        let missing = [];
+        for ( let i = 1; i <= count; i++ ) {
+            if (missedNumber.indexOf(i) == -1) {
+                missing.push(i);
+                requiredNumber = missing[0];
+            }
+            else if (missedNumber.length == count) {
+                alert('В массиве нет пропущенных элементов');
+                return 'undefined'
+            }
+        }
+        alert('Пропущенное число ' + requiredNumber);
+        return requiredNumber;
+}
+
+console.assert(missNum([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 17, 18, 19, 20]) == 16, 'Actual result: %s', missNum([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 17, 18, 19, 20]));
+//console.assert(missNum([1, 12, 5, 8, 3, 2, 4, 7, 6, 11, 10]) == 9, 'Actual result: %s', missNum([1, 12, 5, 8, 3, 2, 4, 7, 6, 11, 10]));
+//console.assert(missNum([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])=='undefined', 'Actual result: %s', missNum([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]));
+</script>
+</body>
+</html>
