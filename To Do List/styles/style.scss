@@ -1,5 +1,6 @@
 $mainTextSize: 1.3em;
 $mainBorder: solid black 1px;
+$filterButtonBorder: dashed black 3px;
 
 
 .main-wrapper {
@@ -103,3 +104,41 @@ $mainBorder: solid black 1px;
   border-radius: 5px;
   font-size: 1.1em;
 }
+
+.todo-message[data-text-decoration='1'] {
+  text-decoration: line-through;
+}
+
+.todo-message[data-display='1'] {
+  display: none;
+}
+
+.filter-buttons {
+  display: flex;
+  width: 500px;
+  flex-direction: row;
+  justify-content: space-around;
+  margin: 10px auto;
+}
+
+#show-all-todos {
+  height: 42px;
+  width: 150px;
+  border: $filterButtonBorder;
+  font-size: 1em;
+}
+
+#show-completed-todos {
+  height: 42px;
+  width: 150px;
+  border: $filterButtonBorder;
+  font-size: 1em;
+}
+
+#show-not-completed-todos {
+  height: 42px;
+  width: 150px;
+  border: $filterButtonBorder;
+  font-size: 1em;
+}
+

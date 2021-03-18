@@ -86,4 +86,35 @@
   border-radius: 5px;
   font-size: 1.1em; }
 
+.todo-message[data-text-decoration='1'] {
+  text-decoration: line-through; }
+
+.todo-message[data-display='1'] {
+  display: none; }
+
+.filter-buttons {
+  display: flex;
+  width: 500px;
+  flex-direction: row;
+  justify-content: space-around;
+  margin: 10px auto; }
+
+#show-all-todos {
+  height: 42px;
+  width: 150px;
+  border: dashed black 3px;
+  font-size: 1em; }
+
+#show-completed-todos {
+  height: 42px;
+  width: 150px;
+  border: dashed black 3px;
+  font-size: 1em; }
+
+#show-not-completed-todos {
+  height: 42px;
+  width: 150px;
+  border: dashed black 3px;
+  font-size: 1em; }
+
 /*# sourceMappingURL=style.css.map */

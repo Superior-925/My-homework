@@ -51,7 +51,7 @@ class Todos {
             textElement.classList.add('todo-message');
 
             if(current.isDone) {
-                textElement.style = 'text-decoration: line-through';
+                textElement.setAttribute('data-text-decoration','1');
             }
 
             // append a new to-do into container
@@ -95,6 +95,18 @@ document.addEventListener('click',function(e){
     let todo = Todos.findInstanceById(id);
     todo.setIsDone(!todo.isDone);
 
+    // change value 'isDone'
+
+    for (let i = 0;  i<localStorage.length; i++) {
+                let key = localStorage.key(i);
+                let data = JSON.parse(localStorage.getItem(key));
+
+                if (data.id == id) {
+                    data.isDone = todo.isDone;
+                }
+                let localStorageValue = JSON.stringify(data);
+                localStorage.setItem(data.id, localStorageValue);
+            }
 });
 
 // add todos on display from local storage after refresh the page
@@ -104,11 +116,11 @@ document.addEventListener('DOMContentLoaded', function() {
     for (let i = 0;  i<localStorage.length; i++) {
         let key = localStorage.key(i);
         let data = JSON.parse(localStorage.getItem(key));
+        if (!data.isDone) {
         let outputData =  new Todos(data.taskText, data.id, data.isDone);
         outputData.addTask();
-
+        }
     }
-
 });
 
 //delete all to-do
@@ -122,36 +134,38 @@ deleteAllButton.onclick = function() {
     Todos.todos.length = 0;
 };
 
-//delete selected to-do (теущая задача)
+//delete selected to-do
 
-// document.addEventListener('click',function(e){
-//     if(!e.target || e.target.className !== 'delete-button') {
-//         return;
-//     }
+let deleteCompletedButton = document.getElementById('delete-button');
 
-    // let deleteSelectedTask = document.querySelector('#todo-block');
-    //
-    // if (deleteSelectedTask.style == "text-decoration: line-through") {
-    //
-    //         deleteSelectedTask.remove();
-    //     }
+    deleteCompletedButton.addEventListener('click', function () {
+    let todos = document.querySelectorAll('.todo-message');
 
-    // let deleteSelectedTask = document.getElementById('todo-block').getElementsByClassName('todo-message');
-    //
-    // if (deleteSelectedTask.style.textDecoration === 'line-through') {
-    //
-    //     deleteSelectedTask.textContent = '';
-    //     deleteSelectedTask.remove(deleteSelectedTask);
-    // }
+    todos.forEach(t => {
+        if (t.getAttribute('data-text-decoration')) {
+            t.setAttribute('data-display', '1');
+        }
+    });
+});
 
-    // let deleteSelectedTask = document.getElementsByClassName('todo-message');
-    // if (getComputedStyle(deleteSelectedTask, null).textDecoration === 'line-through') {
-    //
-    //     //deleteSelectedTask.remove();
-    //     deleteSelectedTask.textContent = '';
-    // }
+// filter - show all todos
 
-// });
+let showAllTodos = document.getElementById('show-all-todos');
+
+    showAllTodos.addEventListener('click', function () {
+        let buttonList = document.querySelectorAll('.done-button');
+        for (let i = 0;  i<localStorage.length; i++) {
+            let key = localStorage.key(i);
+            let data = JSON.parse(localStorage.getItem(key));
+            for (let k=0; k<buttonList.length; k++) {
+                let attrButtonId = buttonList.item(k).getAttribute('data-id');
+                if (data.id != attrButtonId) {
+                    let outputData =  new Todos(data.taskText, data.id, data.isDone);
+                    outputData.addTask();
+                }
+            }
+        }
+    });
 
 
 //-----------------create drag and drop of elements
@@ -255,6 +269,7 @@ document.addEventListener('click', function() {
 
     const mouseUpHandler = function() {
         // Remove the placeholder
+
         placeholder && placeholder.parentNode.removeChild(placeholder);
 
         draggingEle.style.removeProperty('top');
