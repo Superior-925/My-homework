@@ -1,6 +1,6 @@
 $mainTextSize: 1.3em;
 $mainBorder: solid black 1px;
-$filterButtonBorder: dashed black 3px;
+$filterButtonBorder: solid black 3px;
 
 
 .main-wrapper {
@@ -39,9 +39,6 @@ $filterButtonBorder: dashed black 3px;
   font-size: $mainTextSize;
 }
 
-.todo-block {
-}
-
 .todo-message {
   display: flex;
   align-items: center;
@@ -49,7 +46,7 @@ $filterButtonBorder: dashed black 3px;
   margin: 10px auto;
   width: 540px;
   height: 38px;
-  border: $mainBorder;
+  border: 3px solid;
   border-radius: 5px;
   background-color: white;
   font-size: 1.3em;
@@ -76,31 +73,18 @@ $filterButtonBorder: dashed black 3px;
 
 .delete-buttons-block {
   display: flex;
-  flex-direction: row;
   justify-content: center;
   margin-top: 10px;
-
-}
-
-#delete-button {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 250px;
-  height: 42px;
-  border: $mainBorder;
-  border-radius: 5px;
-  font-size: 1.1em;
 }
 
 #delete-all-button {
   display: flex;
   justify-content: center;
+  margin: auto;
   align-items: center;
-  margin-left: 30px;
-  width: 250px;
+  width: 400px;
   height: 42px;
-  border: $mainBorder;
+  border: solid black 3px;
   border-radius: 5px;
   font-size: 1.1em;
 }
@@ -126,6 +110,7 @@ $filterButtonBorder: dashed black 3px;
   width: 150px;
   border: $filterButtonBorder;
   font-size: 1em;
+  border-radius: 5px;
 }
 
 #show-completed-todos {
@@ -133,6 +118,7 @@ $filterButtonBorder: dashed black 3px;
   width: 150px;
   border: $filterButtonBorder;
   font-size: 1em;
+  border-radius: 5px;
 }
 
 #show-not-completed-todos {
@@ -140,5 +126,6 @@ $filterButtonBorder: dashed black 3px;
   width: 150px;
   border: $filterButtonBorder;
   font-size: 1em;
+  border-radius: 5px;
 }
 

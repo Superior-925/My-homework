@@ -24,6 +24,9 @@ addToDoButton.onclick = function() {
     localStorage.setItem(id, localStorageValue);
 };
 
+const ALL_TASK = 0;
+const NOT_COMPLETED_TASK = 1;
+const COMPLETED_TASK = 2;
 
 class Todos {
 
@@ -37,44 +40,96 @@ class Todos {
 
     addTask () {
         Todos.todos.push(this);
-        this.renderList();
+        Todos.renderList();
     }
 
-    renderList() {
+    static renderList(view = ALL_TASK) {
         // remove all appended todos
         let todos = document.getElementsByClassName('todo-message');
         while (todos.length > 0) todos[0].remove();
 
         Todos.todos.forEach(function (current) {
             // add container for new to-do
-            let textElement = document.createElement('div');
-            textElement.classList.add('todo-message');
+            let textElement;
+            let doneButtonElement;
+            switch (view) {
+                case 0 :
+                    textElement = document.createElement('div');
+                    textElement.classList.add('todo-message');
 
-            if(current.isDone) {
-                textElement.setAttribute('data-text-decoration','1');
+                    if(current.isDone) {
+                        textElement.setAttribute('data-text-decoration','1');
+                    }
+
+                    // append a new to-do into container
+                    document.getElementById('todo-block').appendChild(textElement);
+
+                    // add button for change isDone property
+                    doneButtonElement = document.createElement('button');
+                    doneButtonElement.setAttribute('data-id', current.id);
+                    doneButtonElement.classList.add('done-button');
+                    doneButtonElement.type = 'button';
+
+                    // add to-do text
+                    textElement.innerText = current.taskText;
+
+                    // append button into to-do block
+                    textElement.appendChild(doneButtonElement);
+                    break;
+                case 1 :
+                    textElement = document.createElement('div');
+                    textElement.classList.add('todo-message');
+
+                    if(current.isDone) {
+                        textElement.setAttribute('data-text-decoration','1');
+                    }
+                    if(!current.isDone) {
+                    // append a new to-do into container
+                    document.getElementById('todo-block').appendChild(textElement);
+
+                    // add button for change isDone property
+                    doneButtonElement = document.createElement('button');
+                    doneButtonElement.setAttribute('data-id', current.id);
+                    doneButtonElement.classList.add('done-button');
+                    doneButtonElement.type = 'button';
+
+                    // add to-do text
+                    textElement.innerText = current.taskText;
+
+                    // append button into to-do block
+                    textElement.appendChild(doneButtonElement);}
+                    break;
+                case 2 :
+                    textElement = document.createElement('div');
+                    textElement.classList.add('todo-message');
+
+                    if(current.isDone) {
+                        textElement.setAttribute('data-text-decoration','1');
+                    }
+                    if(current.isDone) {
+                        // append a new to-do into container
+                        document.getElementById('todo-block').appendChild(textElement);
+
+                        // add button for change isDone property
+                        doneButtonElement = document.createElement('button');
+                        doneButtonElement.setAttribute('data-id', current.id);
+                        doneButtonElement.classList.add('done-button');
+                        doneButtonElement.type = 'button';
+
+                        // add to-do text
+                        textElement.innerText = current.taskText;
+
+                        // append button into to-do block
+                        textElement.appendChild(doneButtonElement);}
+                    break;
             }
-
-            // append a new to-do into container
-            document.getElementById('todo-block').appendChild(textElement);
-
-            // add button for change isDone property
-            let doneButtonElement = document.createElement('button');
-            doneButtonElement.setAttribute('data-id', current.id);
-            doneButtonElement.classList.add('done-button');
-            doneButtonElement.type = 'button';
-
-            // add to-do text
-            textElement.innerText = current.taskText;
-
-            // append button into to-do block
-            textElement.appendChild(doneButtonElement);
         });
 
     }
 
     setIsDone(value) {
         this.isDone = value;
-        this.renderList();
+        Todos.renderList();
     }
 
     static findInstanceById(id) {
@@ -93,7 +148,7 @@ document.addEventListener('click',function(e){
     let id = e.target.getAttribute('data-id'); // get id of clicked element
 
     let todo = Todos.findInstanceById(id);
-    todo.setIsDone(!todo.isDone);
+        todo.setIsDone(!todo.isDone);
 
     // change value 'isDone'
 
@@ -109,6 +164,7 @@ document.addEventListener('click',function(e){
             }
 });
 
+
 // add todos on display from local storage after refresh the page
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -116,10 +172,8 @@ document.addEventListener('DOMContentLoaded', function() {
     for (let i = 0;  i<localStorage.length; i++) {
         let key = localStorage.key(i);
         let data = JSON.parse(localStorage.getItem(key));
-        if (!data.isDone) {
-        let outputData =  new Todos(data.taskText, data.id, data.isDone);
-        outputData.addTask();
-        }
+        Todos.todos.push(new Todos( data.taskText, data.id, data.isDone));
+        Todos.renderList(NOT_COMPLETED_TASK);
     }
 });
 
@@ -134,38 +188,34 @@ deleteAllButton.onclick = function() {
     Todos.todos.length = 0;
 };
 
-//delete selected to-do
-
-let deleteCompletedButton = document.getElementById('delete-button');
-
-    deleteCompletedButton.addEventListener('click', function () {
-    let todos = document.querySelectorAll('.todo-message');
-
-    todos.forEach(t => {
-        if (t.getAttribute('data-text-decoration')) {
-            t.setAttribute('data-display', '1');
-        }
-    });
-});
-
-// filter - show all todos
+// filter - show all to-do
 
 let showAllTodos = document.getElementById('show-all-todos');
 
     showAllTodos.addEventListener('click', function () {
-        let buttonList = document.querySelectorAll('.done-button');
-        for (let i = 0;  i<localStorage.length; i++) {
-            let key = localStorage.key(i);
-            let data = JSON.parse(localStorage.getItem(key));
-            for (let k=0; k<buttonList.length; k++) {
-                let attrButtonId = buttonList.item(k).getAttribute('data-id');
-                if (data.id != attrButtonId) {
-                    let outputData =  new Todos(data.taskText, data.id, data.isDone);
-                    outputData.addTask();
-                }
-            }
-        }
+
+        Todos.renderList();
     });
+
+// filter - show completed to-do
+
+let showCompletedTodos = document.getElementById('show-completed-todos');
+
+showCompletedTodos.addEventListener('click', function () {
+
+    Todos.renderList(COMPLETED_TASK);
+
+});
+
+// filter - show not completed to-do
+
+let showNotCompletedTodos = document.getElementById('show-not-completed-todos');
+
+showNotCompletedTodos.addEventListener('click', function () {
+
+    Todos.renderList(NOT_COMPLETED_TASK);
+
+});
 
 
 //-----------------create drag and drop of elements
@@ -269,7 +319,6 @@ document.addEventListener('click', function() {
 
     const mouseUpHandler = function() {
         // Remove the placeholder
-
         placeholder && placeholder.parentNode.removeChild(placeholder);
 
         draggingEle.style.removeProperty('top');
