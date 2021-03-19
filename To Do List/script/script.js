@@ -217,10 +217,55 @@ showNotCompletedTodos.addEventListener('click', function () {
 
 });
 
+// Show / hide buttons depending on the state of the local storage
+
+document.addEventListener('DOMContentLoaded', function (){
+    if (localStorage.length == 0) {
+        deleteAllButton.setAttribute('button-display', '1');
+    }
+    if (localStorage.length == 0) {
+        showAllTodos.setAttribute('button-display', '1');
+    }
+    if (localStorage.length == 0) {
+        showCompletedTodos.setAttribute('button-display', '1');
+    }
+    if (localStorage.length == 0) {
+        showNotCompletedTodos.setAttribute('button-display', '1');
+    }
+})
+
+document.addEventListener('click', function() {
+    if (localStorage.length == 0) {
+        deleteAllButton.setAttribute('button-display', '1');
+    }
+    else {
+        deleteAllButton.removeAttribute('button-display');
+    }
+    if (localStorage.length == 0) {
+        showAllTodos.setAttribute('button-display', '1');
+    }
+    else {
+        showAllTodos.removeAttribute('button-display');
+    }
+    if (localStorage.length == 0) {
+        showCompletedTodos.setAttribute('button-display', '1');
+    }
+    else {
+        showCompletedTodos.removeAttribute('button-display');
+    }
+    if (localStorage.length == 0) {
+        showNotCompletedTodos.setAttribute('button-display', '1');
+    }
+    else {
+        showNotCompletedTodos.removeAttribute('button-display');
+    }
+
+});
 
 //-----------------create drag and drop of elements
 
 document.addEventListener('click', function() {
+
     // Query the list element
     const list = document.getElementById('todo-block');
 

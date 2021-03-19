@@ -75,6 +75,9 @@
   border-radius: 5px;
   font-size: 1.1em; }
 
+#delete-all-button[button-display='1'] {
+  display: none; }
+
 .todo-message[data-text-decoration='1'] {
   text-decoration: line-through; }
 
@@ -95,6 +98,9 @@
   font-size: 1em;
   border-radius: 5px; }
 
+#show-all-todos[button-display='1'] {
+  display: none; }
+
 #show-completed-todos {
   height: 42px;
   width: 150px;
@@ -102,11 +108,17 @@
   font-size: 1em;
   border-radius: 5px; }
 
+#show-completed-todos[button-display='1'] {
+  display: none; }
+
 #show-not-completed-todos {
   height: 42px;
   width: 150px;
   border: solid black 3px;
   font-size: 1em;
   border-radius: 5px; }
+
+#show-not-completed-todos[button-display='1'] {
+  display: none; }
 
 /*# sourceMappingURL=style.css.map */
