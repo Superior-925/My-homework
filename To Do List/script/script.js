@@ -222,14 +222,8 @@ showNotCompletedTodos.addEventListener('click', function () {
 document.addEventListener('DOMContentLoaded', function (){
     if (localStorage.length == 0) {
         deleteAllButton.setAttribute('button-display', '1');
-    }
-    if (localStorage.length == 0) {
         showAllTodos.setAttribute('button-display', '1');
-    }
-    if (localStorage.length == 0) {
         showCompletedTodos.setAttribute('button-display', '1');
-    }
-    if (localStorage.length == 0) {
         showNotCompletedTodos.setAttribute('button-display', '1');
     }
 })
@@ -237,29 +231,16 @@ document.addEventListener('DOMContentLoaded', function (){
 document.addEventListener('click', function() {
     if (localStorage.length == 0) {
         deleteAllButton.setAttribute('button-display', '1');
-    }
-    else {
-        deleteAllButton.removeAttribute('button-display');
-    }
-    if (localStorage.length == 0) {
         showAllTodos.setAttribute('button-display', '1');
-    }
-    else {
-        showAllTodos.removeAttribute('button-display');
-    }
-    if (localStorage.length == 0) {
         showCompletedTodos.setAttribute('button-display', '1');
-    }
-    else {
-        showCompletedTodos.removeAttribute('button-display');
-    }
-    if (localStorage.length == 0) {
         showNotCompletedTodos.setAttribute('button-display', '1');
     }
     else {
+        deleteAllButton.removeAttribute('button-display');
+        showAllTodos.removeAttribute('button-display');
+        showCompletedTodos.removeAttribute('button-display');
         showNotCompletedTodos.removeAttribute('button-display');
     }
-
 });
 
 //-----------------create drag and drop of elements
