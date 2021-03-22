@@ -36,7 +36,7 @@ class Render {
                     textElement.classList.add('todo-message');
 
                     if(current.isDone) {
-                        textElement.setAttribute('data-text-decoration','1');
+                        textElement.setAttribute('data-text-decoration','text-decoration');
                     }
 
                     // append a new to-do into container
@@ -59,7 +59,7 @@ class Render {
                     textElement.classList.add('todo-message');
 
                     if(current.isDone) {
-                        textElement.setAttribute('data-text-decoration','1');
+                        textElement.setAttribute('data-text-decoration','text-decoration');
                     }
                     if(!current.isDone) {
                         // append a new to-do into container
@@ -82,7 +82,7 @@ class Render {
                     textElement.classList.add('todo-message');
 
                     if(current.isDone) {
-                        textElement.setAttribute('data-text-decoration','1');
+                        textElement.setAttribute('data-text-decoration','text-decoration');
                     }
                     if(current.isDone) {
                         // append a new to-do into container

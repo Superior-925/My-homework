@@ -92,7 +92,7 @@
 #delete-all-button[button-display='display-none'] {
   display: none; }
 
-.todo-message[data-text-decoration='1'] {
+.todo-message[data-text-decoration='text-decoration'] {
   text-decoration: line-through; }
 
 .todo-message[data-display='1'] {

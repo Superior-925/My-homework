@@ -109,7 +109,7 @@ $filterButtonBorder: solid black 3px;
   display: none;
 }
 
-.todo-message[data-text-decoration='1'] {
+.todo-message[data-text-decoration='text-decoration'] {
   text-decoration: line-through;
 }
 
