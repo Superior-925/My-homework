@@ -1,13 +1,5 @@
 let addToDoButton = document.getElementById('todo-button');
 
-function getRandomIntInclusive(min, max)
-{
-    min = Math.ceil(min);
-    max = Math.floor(max);
-    return Math.floor(Math.random() * (max - min + 1) + min); //The maximum is inclusive and the minimum is inclusive
-}
-
-
 addToDoButton.onclick = function() {
     let inputValue = document.getElementById('new-todo-input').value;
     if(!inputValue || inputValue.trim().length === 0) {
@@ -26,23 +18,6 @@ addToDoButton.onclick = function() {
 const ALL_TASK = 0;
 const NOT_COMPLETED_TASK = 1;
 const COMPLETED_TASK = 2;
-
-class Todos {
-
-    static todos = [];
-
-    constructor(taskText, id, isDone) {
-        this.taskText = taskText;
-        this.id = id;
-        this.isDone = isDone;
-    }
-
-    addTask() {
-        Todos.todos.push(this);
-        let render = new Render();
-        render.renderList();
-    }
-}
 
 class Render {
 
@@ -157,6 +132,23 @@ class Render {
         }
     }
 
+    deleteAll() {
+        let deleteTask = document.querySelector('#todo-block');
+        deleteTask.textContent = '';
+        localStorage.clear();
+        Todos.todos.length = 0
+    }
+
+    refreshPage() {
+        for (let i = 0;  i<localStorage.length; i++) {
+            let key = localStorage.key(i);
+            let data = JSON.parse(localStorage.getItem(key));
+            Todos.todos.push(new Todos( data.taskText, data.id, data.isDone));
+            let refreshPage = new Render();
+            refreshPage.renderList(NOT_COMPLETED_TASK);
+        }
+    }
+
 }
 
 // change value 'isDone'
@@ -193,41 +185,22 @@ document.addEventListener('click',function(e){
 
 function hideButtons() {
     if (Todos.todos.length == 0) {
-        deleteCompletedButton.setAttribute('button-display', '1');
-        deleteAllButton.setAttribute('button-display', '1');
-        showAllTodos.setAttribute('button-display', '1');
-        showCompletedTodos.setAttribute('button-display', '1');
-        showNotCompletedTodos.setAttribute('button-display', '1');
+        deleteCompletedButton.setAttribute('button-display', 'display-none');
+        deleteAllButton.setAttribute('button-display', 'display-none');
+        showAllTodos.setAttribute('button-display', 'display-none');
+        showCompletedTodos.setAttribute('button-display', 'display-none');
+        showNotCompletedTodos.setAttribute('button-display', 'display-none');
     }
 }
 
 let deleteCompletedButton = document.getElementById('delete-completed-button');
 
 deleteCompletedButton.onclick = function () {
-         // deleting records in todos array
+
+    // deleting records in todos array
     let deleteCompleted = new Render();
     deleteCompleted.deleteCompleted();
 
-    // for (let i = 0; i < Todos.todos.length; i++) {
-    //     let arr = Todos.todos;
-    //     function removeElementByName(arr, isDone){
-    //         return arr.filter( e => e.isDone !== true );
-    //     }
-    //     arr = removeElementByName(arr, true);
-    //     Todos.todos = arr;
-    //
-    //     // deleting records in localstorage
-    //     for (let i = 0; i < localStorage.length; i++) {
-    //         let key = localStorage.key(i);
-    //         let data = JSON.parse(localStorage.getItem(key));
-    //         if (data.isDone == true) {
-    //             localStorage.removeItem(data.id);
-    //         }
-    //     }
-    //     let newRender = new Render();
-    //     newRender.renderList();
-    //     hideButtons();
-    // }
 };
 
 //delete all to-do
@@ -235,10 +208,10 @@ deleteCompletedButton.onclick = function () {
 let deleteAllButton = document.getElementById('delete-all-button');
 
 deleteAllButton.onclick = function() {
-    let deleteTask = document.querySelector('#todo-block');
-    deleteTask.textContent = '';
-    localStorage.clear();
-    Todos.todos.length = 0;
+
+    let deleteAll = new Render();
+    deleteAll.deleteAll();
+
 };
 
 // filter - show all to-do
@@ -248,7 +221,7 @@ let showAllTodos = document.getElementById('show-all-todos-button');
 showAllTodos.onclick =  function () {
     let allTodos = new Render();
     allTodos.renderList();
-    //showAllTodos.setAttribute('button-style','1');
+
 };
 
 // filter - show completed to-do
@@ -278,11 +251,11 @@ showNotCompletedTodos.onclick = function () {
 
 function showHideButtons() {
     if (localStorage.length == 0) {
-        deleteCompletedButton.setAttribute('button-display', '1');
-        deleteAllButton.setAttribute('button-display', '1');
-        showAllTodos.setAttribute('button-display', '1');
-        showCompletedTodos.setAttribute('button-display', '1');
-        showNotCompletedTodos.setAttribute('button-display', '1');
+        deleteCompletedButton.setAttribute('button-display', 'display-none');
+        deleteAllButton.setAttribute('button-display', 'display-none');
+        showAllTodos.setAttribute('button-display', 'display-none');
+        showCompletedTodos.setAttribute('button-display', 'display-none');
+        showNotCompletedTodos.setAttribute('button-display', 'display-none');
     }
     else {
         deleteCompletedButton.removeAttribute('button-display');
@@ -307,29 +280,12 @@ document.addEventListener('click', function(e) {
     showHideButtons();
 });
 
-function hideButtons () {
-    if (localStorage.length == 0) {
-        deleteCompletedButton.setAttribute('button-display', '1');
-        deleteAllButton.setAttribute('button-display', '1');
-        showAllTodos.setAttribute('button-display', '1');
-        showCompletedTodos.setAttribute('button-display', '1');
-        showNotCompletedTodos.setAttribute('button-display', '1');
-    }
-}
-
-function refreshPage() {
-    for (let i = 0;  i<localStorage.length; i++) {
-        let key = localStorage.key(i);
-        let data = JSON.parse(localStorage.getItem(key));
-        Todos.todos.push(new Todos( data.taskText, data.id, data.isDone));
-        let refreshPage = new Render();
-        refreshPage.renderList(NOT_COMPLETED_TASK);
-    }
-}
-
 document.addEventListener('DOMContentLoaded', function (){
+
+    let refreshPage = new Render();
+    refreshPage.refreshPage();
     hideButtons();
-    refreshPage();
+
 });
 
 //-----------------create drag and drop of elements

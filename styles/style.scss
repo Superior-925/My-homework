@@ -89,7 +89,7 @@ $filterButtonBorder: solid black 3px;
   font-size: 1.1em;
 }
 
-#delete-completed-button[button-display='1'] {
+#delete-completed-button[button-display='display-none'] {
   display: none;
 }
 
@@ -105,7 +105,7 @@ $filterButtonBorder: solid black 3px;
   font-size: 1.1em;
 }
 
-#delete-all-button[button-display='1'] {
+#delete-all-button[button-display='display-none'] {
   display: none;
 }
 
@@ -133,12 +133,8 @@ $filterButtonBorder: solid black 3px;
   border-radius: 5px;
 }
 
-#show-all-todos-button[button-display='1'] {
+#show-all-todos-button[button-display='display-none'] {
   display: none;
-}
-
-#show-all-todos-button[button-style='1'] {
-  border-color: red;
 }
 
 #show-completed-todos-button {
@@ -149,7 +145,7 @@ $filterButtonBorder: solid black 3px;
   border-radius: 5px;
 }
 
-#show-completed-todos-button[button-display='1'] {
+#show-completed-todos-button[button-display='display-none'] {
   display: none;
 }
 
@@ -161,7 +157,7 @@ $filterButtonBorder: solid black 3px;
   border-radius: 5px;
 }
 
-#show-not-completed-todos-button[button-display='1'] {
+#show-not-completed-todos-button[button-display='display-none'] {
   display: none;
 }
 
