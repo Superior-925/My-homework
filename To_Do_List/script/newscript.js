@@ -1,19 +1,19 @@
-document.addEventListener("DOMContentLoaded", function () {
-
-    let newTodoList = new TodoList();
-    let controller = new Controller(newTodoList);
-    //controller.subscribe(); на это не обращать внимания
-    controller.onNewTodo();
-    //controller.changeDone(); на это не обращать внимания
-
-    document.addEventListener('click',function(e){
-        if(!e.target || e.target.className !== 'done-button') {
-            return;
-        }
-        controller.renderLog()
-    });
-
-});
+// document.addEventListener("DOMContentLoaded", function () {
+//
+//     let newTodoList = new TodoList();
+//     let controller = new Controller(newTodoList);
+//     //controller.subscribe(); на это не обращать внимания
+//     controller.onNewTodo();
+//     //controller.changeDone(); на это не обращать внимания
+//
+//     document.addEventListener('click',function(e){
+//         if(!e.target || e.target.className !== 'done-button') {
+//             return;
+//         }
+//         controller.renderLog()
+//     });
+//
+// });
 
 
 function getRandomIntInclusive(min, max) {
@@ -32,11 +32,16 @@ class TodoList {
     }
 
     addTodo(newTodo) {
-        this.todos.push(newTodo)
+        this.todos.push(newTodo);
     }
 
     get todoList() {
         return console.log([this.todos]);
+    }
+
+    deleteAllTodos() {
+        this.todos.length = 0;
+        this.renderList();
     }
 
     renderList(view = ALL_TASK) {
@@ -71,6 +76,14 @@ class TodoList {
 
                     // append button into to-do block
                     textElement.appendChild(doneButtonElement);
+                    // adding function for change 'isDone' value
+                    doneButtonElement.addEventListener('click', function (e) {
+                        let id = e.target.getAttribute('data-id'); // get id of clicked element
+                        let currentTodo = controller.todoList.findInstanceById(id);
+                        currentTodo.isDone = !currentTodo.isDone;
+                        controller.todoList.renderList();
+                        controller.todoList.todoList
+                    });
 
                     break;
                 case 1 :
@@ -95,6 +108,15 @@ class TodoList {
 
                         // append button into to-do block
                         textElement.appendChild(doneButtonElement);}
+                        // adding function for change 'isDone' value
+                        doneButtonElement.addEventListener('click', function (e) {
+                        let id = e.target.getAttribute('data-id'); // get id of clicked element
+                        let currentTodo = controller.todoList.findInstanceById(id);
+                        currentTodo.isDone = !currentTodo.isDone;
+                        controller.todoList.renderList();
+                        controller.todoList.todoList
+                    });
+
                     break;
                 case 2 :
                     textElement = document.createElement('div');
@@ -118,11 +140,24 @@ class TodoList {
 
                         // append button into to-do block
                         textElement.appendChild(doneButtonElement);}
+                         // adding function for change 'isDone' value
+                        doneButtonElement.addEventListener('click', function (e) {
+                        let id = e.target.getAttribute('data-id'); // get id of clicked element
+                        let currentTodo = controller.todoList.findInstanceById(id);
+                        currentTodo.isDone = !currentTodo.isDone;
+                        controller.todoList.renderList();
+                        controller.todoList.todoList
+                    });
+
                     break;
             }
         });
 
-    }
+    };
+
+    findInstanceById(id) {
+        return this.todos.find(todo => todo.id == id);
+    };
 
 }
 
@@ -131,14 +166,14 @@ class Todo {
         this.taskText = taskText;
         this.id = id;
         this.isDone = isDone;
-    }
+    };
 }
 
 
 class Controller {
     constructor(todoList) {
         this.todoList = todoList;
-    }
+    };
 
     onNewTodo() {
         let addToDoButton = document.getElementById("todo-button");
@@ -154,25 +189,48 @@ class Controller {
 
             this.todoList.addTodo(newTodo);
 
-            this.todoList.todoList;
-
             this.todoList.renderList();
 
-            //render created todo item
-        })
-
-    }
-
-    subscribe() {
-        this.onNewTodo()
-    }
-
-    renderLog() {
-        this.todoList.todoList;
-    }
+        });
+    };
 }
 
 
+
+    let newTodoList = new TodoList();
+    let controller = new Controller(newTodoList);
+    //controller.subscribe(); на это не обращать внимания
+    controller.onNewTodo();
+
+    //controller.changeDone(); на это не обращать внимания
+
+    // document.addEventListener('click',function(e){
+    //     if(!e.target || e.target.className !== 'done-button') {
+    //         return;
+    //     }
+    //
+    //     //controller.changeIsDone();
+    //
+    //     let id = e.target.getAttribute('data-id'); // get id of clicked element
+    //
+    //
+    //     let currentTodo = controller.todoList.findInstanceById(id);
+    //         currentTodo.isDone = !currentTodo.isDone;
+    //         controller.todoList.renderList();
+    //
+    //         controller.todoList.todoList;
+    //     //controller.renderLog()
+    // });
+
+
+let deleteCompletedButton = document.getElementById('delete-all-button');
+
+deleteCompletedButton.onclick = function () {
+
+    // deleting records in todos array
+    controller.todoList.deleteAllTodos();
+
+};
 
 
 
