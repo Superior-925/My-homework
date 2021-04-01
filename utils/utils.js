@@ -13,21 +13,22 @@ let showCompletedTodosButton = document.getElementById('show-completed-todos-but
 let showNotCompletedTodosButton = document.getElementById('show-not-completed-todos-button');
 
 function hideButtons() {
-    if (controller.todoList.todos.length == 0) {
-        deleteCompletedButton.setAttribute('button-display', 'display-none');
-        deleteAllButton.setAttribute('button-display', 'display-none');
-        showAllTodosButton.setAttribute('button-display', 'display-none');
-        showCompletedTodosButton.setAttribute('button-display', 'display-none');
-        showNotCompletedTodosButton.setAttribute('button-display', 'display-none');
-    }
+    // if (controller.todoList.todos.length == 0) {
+    //     deleteCompletedButton.setAttribute('button-display', 'display-none');
+    //     deleteAllButton.setAttribute('button-display', 'display-none');
+    //     showAllTodosButton.setAttribute('button-display', 'display-none');
+    //     showCompletedTodosButton.setAttribute('button-display', 'display-none');
+    //     showNotCompletedTodosButton.setAttribute('button-display', 'display-none');
+    // }
 }
+
 //----------------------------------------
 
-// show / hide buttons depending on the state of the local storage
-// add todos on display from local storage after refresh the page
+// show / hide buttons depending on the state of todos array or
+// add todos after refresh the page
 
 function showHideButtons() {
-    if (localStorage.length == 0) {
+    if (controller.todoList.todos.length == 0) {
         deleteCompletedButton.setAttribute('button-display', 'display-none');
         deleteAllButton.setAttribute('button-display', 'display-none');
         showAllTodosButton.setAttribute('button-display', 'display-none');

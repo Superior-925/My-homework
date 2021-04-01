@@ -4,4 +4,9 @@ class Todo {
         this.id = id;
         this.isDone = isDone;
     };
+
+    changeIsDone() {
+
+    }
 }
+

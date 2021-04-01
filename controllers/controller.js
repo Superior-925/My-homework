@@ -17,7 +17,6 @@ class Controller {
 
             this.todoList.addTodo(newTodo);
 
-            this.todoList.renderList();
             showHideButtons();
         });
     };
@@ -27,8 +26,8 @@ class Controller {
         // deleting all records in todos array
         let deleteAllButton = document.getElementById('delete-all-button');
 
-        deleteAllButton.addEventListener('click',function () {
-            controller.todoList.deleteAllTodos();
+        deleteAllButton.addEventListener('click', () => {
+            this.todoList.deleteAllTodos();
             showHideButtons();
         });
     }
@@ -36,32 +35,32 @@ class Controller {
     deleteCompleted() {
         // deleting completed records in todos array
         let deleteCompletedButton = document.getElementById('delete-completed-button');
-        deleteCompletedButton.addEventListener('click', function () {
-            controller.todoList.deleteCompletedTodos();
+        deleteCompletedButton.addEventListener('click', () => {
+            this.todoList.deleteCompletedTodos();
         });
     }
 
     showAll() {
         //filtering displayed tasks
         let showAllTodosButton = document.getElementById('show-all-todos-button');
-        showAllTodosButton.addEventListener('click', function () {
-            controller.todoList.showAllTodos();
+        showAllTodosButton.addEventListener('click', () => {
+            this.todoList.showAllTodos();
         });
     }
 
     showCompleted() {
         //filtering displayed tasks
         let showCompletedTodosButton = document.getElementById('show-completed-todos-button');
-        showCompletedTodosButton.addEventListener('click', function () {
-            controller.todoList.showCompletedTodos();
+        showCompletedTodosButton.addEventListener('click', () => {
+            this.todoList.showCompletedTodos();
         });
     }
 
     showNotCompleted() {
         //filtering displayed tasks
         let showNotCompletedTodosButton = document.getElementById('show-not-completed-todos-button');
-        showNotCompletedTodosButton.addEventListener('click', function () {
-            controller.todoList.showNotCompletedTodos();
+        showNotCompletedTodosButton.addEventListener('click', () => {
+            this.todoList.showNotCompletedTodos();
         });
     }
 }
@@ -87,16 +86,24 @@ document.addEventListener('click',function(e){
     let currentTodo = controller.todoList.findInstanceById(id);
     currentTodo.isDone = !currentTodo.isDone;
 
-    for (let i = 0;  i<localStorage.length; i++) {
-        let key = localStorage.key(i);
-        let data = JSON.parse(localStorage.getItem(key));
+    // for (let i = 0;  i<localStorage.length; i++) {
+    //     let key = localStorage.key(i);
+    //     let data = JSON.parse(localStorage.getItem(key));
+    //
+    //     if (data.id == id) {
+    //         data.isDone = !data.isDone
+    //     }
+    //     let localStorageValue = JSON.stringify(data);
+    //     localStorage.setItem(data.id, localStorageValue);
+    // }
 
-        if (data.id == id) {
-            data.isDone = !data.isDone
-        }
-        let localStorageValue = JSON.stringify(data);
-        localStorage.setItem(data.id, localStorageValue);
-    }
+    fetch(`http://${config.development.host}:${config.development.port}/changeIsDone`, {
+        method: 'post',
+        headers: {
+            'Content-Type': 'text/plain;charset=UTF-8'
+        },
+        body: id
+    });
 
     controller.todoList.renderList();
     e.stopPropagation();
@@ -105,6 +112,4 @@ document.addEventListener('click',function(e){
 document.addEventListener('DOMContentLoaded', function (){
 
     controller.todoList.refreshPage();
-    hideButtons();
-
 });

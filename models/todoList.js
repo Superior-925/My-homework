@@ -9,13 +9,33 @@ class TodoList {
 
     addTodo(newTodo) {
         this.todos.push(newTodo);
-        let localStorageValue = JSON.stringify(newTodo);
-        localStorage.setItem(newTodo.id, localStorageValue);
+        let dataPost = JSON.stringify(newTodo);
+
+        fetch(`http://${config.development.host}:${config.development.port}/todos`, {
+            method: 'post',
+            headers: {
+                'Accept': 'application/json, text/plain, */*',
+                'Content-Type': 'application/json'
+            },
+            body: dataPost
+        }).then(res => res.json())
+            .then(res => console.log(res));
+        this.renderList();
     }
 
     deleteAllTodos() {
         this.todos.length = 0;
-        localStorage.clear();
+
+        fetch(`http://${config.development.host}:${config.development.port}/deleteTodos`, {
+            method: 'post',
+            headers: {
+                'Accept': 'application/json, text/plain, */*',
+                'Content-Type': 'application/json'
+            },
+            body: ''
+        }).then(res => res.json())
+            .then(res => console.log(res));
+
         this.renderList();
     }
 
@@ -56,12 +76,20 @@ class TodoList {
     }
 
     refreshPage() {
-        for (let i = 0;  i<localStorage.length; i++) {
-            let key = localStorage.key(i);
-            let data = JSON.parse(localStorage.getItem(key));
-            this.todos.push(new Todo(data.taskText, data.id, data.isDone));
-            this.renderList(NOT_COMPLETED_TASK);
-        }
+        fetch(`http://${config.development.host}:${config.development.port}/todos`)
+            .then(response => response.json())
+            .then(json => {
+                console.log(json);
+                for (let i = 0; i<json.length; i++) {
+                    let data = json[i];
+                    this.todos.push(new Todo(data.taskText, data.id, data.isDone));
+                    this.renderList(ALL_TASK);
+                }
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        hideButtons();
     }
 
     renderList(view = ALL_TASK) {

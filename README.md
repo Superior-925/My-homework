@@ -6,6 +6,7 @@ The app allows:
 - Delete tasks
 - Filter tasks
 - Prioritize tasks for completion
+- Downloading tasks on the server
 
 ## Application Technology Stack
 
@@ -18,7 +19,20 @@ The application is written in HTML/CSS/JavaScript
 $ sudo apt-get update
 $ sudo apt-get install python3.6
 ```
- - Launch the terminal from the applications folder and run the following command:
+
+ - Compile SCSS to CSS run terminal command from folder "styles": 
+ 
+ ```
+ $ npx sass ./style.scss ./style.css
+
+```
+
+ - Launch the terminal from folder "server" and run the following command:
+ ```sh
+npm run start:dev
+```
+
+ - Launch the terminal from root of the applications folder and run the following command:
  ```sh
 python -m SimpleHTTPServer 8000
 ```
