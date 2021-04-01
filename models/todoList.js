@@ -18,8 +18,7 @@ class TodoList {
                 'Content-Type': 'application/json'
             },
             body: dataPost
-        }).then(res => res.json())
-            .then(res => console.log(res));
+        }).then(res => res.json());
         this.renderList();
     }
 
@@ -33,8 +32,7 @@ class TodoList {
                 'Content-Type': 'application/json'
             },
             body: ''
-        }).then(res => res.json())
-            .then(res => console.log(res));
+        }).then(res => res.json());
 
         this.renderList();
     }
@@ -59,8 +57,7 @@ class TodoList {
                 'Content-Type': 'application/json'
             },
             body: ''
-        }).then(res => res.json())
-            .then(res => console.log(res));
+        }).then(res => res.json());
 
         hideButtons();
     }
@@ -126,26 +123,6 @@ class TodoList {
 
                     // append button into to-do block
                     textElement.appendChild(doneButtonElement);
-
-                    // adding function for change 'isDone' value
-                    // doneButtonElement.addEventListener('click', function (e) {
-                    //     let id = e.target.getAttribute('data-id'); // get id of clicked element
-                    //     let currentTodo = controller.todoList.findInstanceById(id);
-                    //     currentTodo.isDone = !currentTodo.isDone;
-                    //
-                    //     for (let i = 0;  i<localStorage.length; i++) {
-                    //         let key = localStorage.key(i);
-                    //         let data = JSON.parse(localStorage.getItem(key));
-                    //
-                    //         if (data.id == id) {
-                    //             data.isDone = !data.isDone
-                    //         }
-                    //         let localStorageValue = JSON.stringify(data);
-                    //         localStorage.setItem(data.id, localStorageValue);
-                    //     }
-                    //
-                    //     controller.todoList.renderList();
-                    // });
 
                     break;
 
