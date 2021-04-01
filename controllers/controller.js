@@ -102,7 +102,7 @@ document.addEventListener('click',function(e){
         headers: {
             'Content-Type': 'text/plain;charset=UTF-8'
         },
-        body: id
+        body: JSON.stringify({'id': id})
     });
 
     controller.todoList.renderList();

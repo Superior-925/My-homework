@@ -26,8 +26,8 @@ class TodoList {
     deleteAllTodos() {
         this.todos.length = 0;
 
-        fetch(`http://${config.development.host}:${config.development.port}/deleteTodos`, {
-            method: 'post',
+        fetch(`http://${config.development.host}:${config.development.port}/todos`, {
+            method: 'delete',
             headers: {
                 'Accept': 'application/json, text/plain, */*',
                 'Content-Type': 'application/json'

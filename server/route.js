@@ -44,7 +44,7 @@ router.post('/todos', function(req, res) {
 
 });
 
-router.post('/deleteTodos', function(req, res) {
+router.delete('/todos', function(req, res) {
   fileStorage.writeFile('./data/todos.json', "[]",  function(err) {
     if (err) {
       return console.error(err);
