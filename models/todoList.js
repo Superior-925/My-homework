@@ -43,23 +43,25 @@ class TodoList {
         for (let i = 0; i < this.todos.length; i++) {
             let arr = this.todos;
 
-            function removeElementByName(arr, isDone) {
+            function removeElementByStatus(arr, isDone) {
                 return arr.filter(e => e.isDone !== true);
             }
 
-            arr = removeElementByName(arr, true);
+            arr = removeElementByStatus(arr, true);
             this.todos = arr;
 
-            // deleting records in localstorage
-            for (let i = 0; i < localStorage.length; i++) {
-                let key = localStorage.key(i);
-                let data = JSON.parse(localStorage.getItem(key));
-                if (data.isDone == true) {
-                    localStorage.removeItem(data.id);
-                }
-            }
             this.renderList();
         }
+        fetch(`http://${config.development.host}:${config.development.port}/selected-todos`, {
+            method: 'delete',
+            headers: {
+                'Accept': 'application/json, text/plain, */*',
+                'Content-Type': 'application/json'
+            },
+            body: ''
+        }).then(res => res.json())
+            .then(res => console.log(res));
+
         hideButtons();
     }
 
@@ -79,17 +81,16 @@ class TodoList {
         fetch(`http://${config.development.host}:${config.development.port}/todos`)
             .then(response => response.json())
             .then(json => {
-                console.log(json);
                 for (let i = 0; i<json.length; i++) {
                     let data = json[i];
                     this.todos.push(new Todo(data.taskText, data.id, data.isDone));
                     this.renderList(ALL_TASK);
                 }
+                hideButtons();
             })
             .catch((error) => {
                 console.error('Error:', error);
             });
-        hideButtons();
     }
 
     renderList(view = ALL_TASK) {

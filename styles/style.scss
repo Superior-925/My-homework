@@ -113,10 +113,6 @@ $filterButtonBorder: solid black 3px;
   text-decoration: line-through;
 }
 
-.todo-message[data-display='1'] {
-  display: none;
-}
-
 .filter-buttons {
   display: flex;
   width: 500px;

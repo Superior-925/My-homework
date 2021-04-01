@@ -28,9 +28,8 @@ router.post('/todos', function(req, res) {
     }
     let content = data;
     content = JSON.parse(content);
-    console.log(content);
+
     content.push(req.body);
-    console.log(content);
     fileStorage.unlink('./data/todos.json', function(err) {
         if (err) {
           return console.error(err);
@@ -51,8 +50,58 @@ router.delete('/todos', function(req, res) {
     }});
 });
 
-router.post('/changeIsDone', function(req, res) {
+router.put('/isDone', function(req, res) {
 
-  console.log(req.body);
+  fileStorage.readFile('./data/todos.json', function read(err, data) {
+    if (err) {
+      throw err;
+    }
+    let content = data;
 
+    content = JSON.parse(content);
+
+    let obj = content.find(f=>f.id==req.body.id);
+    if(obj) {
+      obj.isDone=!obj.isDone;
+    }
+    fileStorage.unlink('./data/todos.json', function(err) {
+      if (err) {
+        return console.error(err);
+      }});
+    fileStorage.writeFile('./data/todos.json', JSON.stringify(content),  function(err) {
+      if (err) {
+        return console.error(err);
+      }});
+  });
+});
+
+router.delete('/selected-todos', function(req, res) {
+
+  fileStorage.readFile('./data/todos.json', function read(err, data) {
+    if (err) {
+      throw err;
+    }
+    let content = data;
+
+    content = JSON.parse(content);
+
+    let arr = content;
+
+    function removeElementByStatus(arr, isDone){
+      return arr.filter( e => e.isDone !== true );
+    }
+
+    arr = removeElementByStatus(arr, true);
+
+    content = arr;
+
+    fileStorage.unlink('./data/todos.json', function(err) {
+      if (err) {
+        return console.error(err);
+      }});
+    fileStorage.writeFile('./data/todos.json', JSON.stringify(content),  function(err) {
+      if (err) {
+        return console.error(err);
+      }});
+  });
 });

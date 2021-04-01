@@ -21,6 +21,7 @@ class Controller {
         });
     };
 
+
     deleteAll() {
 
         // deleting all records in todos array
@@ -63,53 +64,25 @@ class Controller {
             this.todoList.showNotCompletedTodos();
         });
     }
+
+    buttonsListeners() {
+        this.onNewTodo();
+        this.deleteAll();
+        this.deleteCompleted();
+        this.showAll();
+        this.showCompleted();
+        this.showNotCompleted()
+    }
 }
 
 let newTodoList = new TodoList();
 let controller = new Controller(newTodoList);
+let todoChanging = new Todo();
 
-controller.onNewTodo();
-controller.deleteAll();
-controller.deleteCompleted();
-controller.showAll();
-controller.showCompleted();
-controller.showNotCompleted();
+controller.buttonsListeners();
+todoChanging.changeIsDone();
 
-// changing 'isDone' value
-document.addEventListener('click',function(e){
-    if(!e.target || e.target.className !== 'done-button') {
-        return;
-    }
-
-    let id = e.target.getAttribute('data-id'); // get id of clicked element
-
-    let currentTodo = controller.todoList.findInstanceById(id);
-    currentTodo.isDone = !currentTodo.isDone;
-
-    // for (let i = 0;  i<localStorage.length; i++) {
-    //     let key = localStorage.key(i);
-    //     let data = JSON.parse(localStorage.getItem(key));
-    //
-    //     if (data.id == id) {
-    //         data.isDone = !data.isDone
-    //     }
-    //     let localStorageValue = JSON.stringify(data);
-    //     localStorage.setItem(data.id, localStorageValue);
-    // }
-
-    fetch(`http://${config.development.host}:${config.development.port}/changeIsDone`, {
-        method: 'post',
-        headers: {
-            'Content-Type': 'text/plain;charset=UTF-8'
-        },
-        body: JSON.stringify({'id': id})
-    });
-
-    controller.todoList.renderList();
-    e.stopPropagation();
-});
 
 document.addEventListener('DOMContentLoaded', function (){
-
     controller.todoList.refreshPage();
 });
