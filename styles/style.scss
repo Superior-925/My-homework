@@ -127,6 +127,9 @@ $filterButtonBorder: solid black 3px;
   border: $filterButtonBorder;
   font-size: 1em;
   border-radius: 5px;
+  &:focus {
+    background-color: red;
+  }
 }
 
 #show-all-todos-button[button-display='display-none'] {
@@ -139,6 +142,9 @@ $filterButtonBorder: solid black 3px;
   border: $filterButtonBorder;
   font-size: 1em;
   border-radius: 5px;
+  &:focus {
+    background-color: red;
+  }
 }
 
 #show-completed-todos-button[button-display='display-none'] {
@@ -151,6 +157,9 @@ $filterButtonBorder: solid black 3px;
   border: $filterButtonBorder;
   font-size: 1em;
   border-radius: 5px;
+  &:focus {
+    background-color: red;
+  }
 }
 
 #show-not-completed-todos-button[button-display='display-none'] {
