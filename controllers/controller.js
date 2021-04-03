@@ -1,3 +1,7 @@
+const ALL_TASK = 0;
+const NOT_COMPLETED_TASK = 1;
+const COMPLETED_TASK = 2;
+
 class Controller {
     constructor(todoList) {
         this.todoList = todoList;
@@ -45,7 +49,7 @@ class Controller {
         //filtering displayed tasks
         let showAllTodosButton = document.getElementById('show-all-todos-button');
         showAllTodosButton.addEventListener('click', () => {
-            this.todoList.showAllTodos();
+            this.renderList();
         });
     }
 
@@ -53,7 +57,7 @@ class Controller {
         //filtering displayed tasks
         let showCompletedTodosButton = document.getElementById('show-completed-todos-button');
         showCompletedTodosButton.addEventListener('click', () => {
-            this.todoList.showCompletedTodos();
+            this.renderList(COMPLETED_TASK);
         });
     }
 
@@ -61,7 +65,7 @@ class Controller {
         //filtering displayed tasks
         let showNotCompletedTodosButton = document.getElementById('show-not-completed-todos-button');
         showNotCompletedTodosButton.addEventListener('click', () => {
-            this.todoList.showNotCompletedTodos();
+            this.renderList(NOT_COMPLETED_TASK);
         });
     }
 
@@ -73,14 +77,105 @@ class Controller {
         this.showCompleted();
         this.showNotCompleted()
     }
+
+    renderList(view = ALL_TASK) {
+        // remove all appended todos
+        let todosElements = document.getElementsByClassName('todo-message');
+        while (todosElements.length > 0) todosElements[0].remove();
+
+        this.todoList.todos.forEach(function (current) {
+            // add container for new to-do
+            let textElement;
+            let doneButtonElement;
+            switch (view) {
+
+                case ALL_TASK :
+                    textElement = document.createElement('div');
+                    textElement.classList.add('todo-message');
+
+                    if(current.isDone) {
+                        textElement.setAttribute('data-text-decoration','text-decoration');
+                    }
+
+                    // append a new to-do into container
+                    document.getElementById('todo-block').appendChild(textElement);
+
+                    // add button for change isDone property
+                    doneButtonElement = document.createElement('button');
+                    doneButtonElement.setAttribute('data-id', current.id);
+                    doneButtonElement.classList.add('done-button');
+                    doneButtonElement.type = 'button';
+
+                    // add to-do text
+                    textElement.innerText = current.taskText;
+
+                    // append button into to-do block
+                    textElement.appendChild(doneButtonElement);
+
+                    break;
+
+                case NOT_COMPLETED_TASK :
+                    textElement = document.createElement('div');
+                    textElement.classList.add('todo-message');
+
+                    if(current.isDone) {
+                        textElement.setAttribute('data-text-decoration','text-decoration');
+                    }
+                    if(!current.isDone) {
+                        // append a new to-do into container
+                        document.getElementById('todo-block').appendChild(textElement);
+
+                        // add button for change isDone property
+                        doneButtonElement = document.createElement('button');
+                        doneButtonElement.setAttribute('data-id', current.id);
+                        doneButtonElement.classList.add('done-button');
+                        doneButtonElement.type = 'button';
+
+                        // add to-do text
+                        textElement.innerText = current.taskText;
+
+                        // append button into to-do block
+                        textElement.appendChild(doneButtonElement);
+                    }
+                    break;
+
+                case COMPLETED_TASK :
+                    textElement = document.createElement('div');
+                    textElement.classList.add('todo-message');
+
+                    if(current.isDone) {
+                        textElement.setAttribute('data-text-decoration','text-decoration');
+                    }
+                    if(current.isDone) {
+                        // append a new to-do into container
+                        document.getElementById('todo-block').appendChild(textElement);
+
+                        // add button for change isDone property
+                        doneButtonElement = document.createElement('button');
+                        doneButtonElement.setAttribute('data-id', current.id);
+                        doneButtonElement.classList.add('done-button');
+                        doneButtonElement.type = 'button';
+
+                        // add to-do text
+                        textElement.innerText = current.taskText;
+
+                        // append button into to-do block
+                        textElement.appendChild(doneButtonElement);
+                    }
+                    break;
+            }
+        });
+
+    };
+
 }
 
 let newTodoList = new TodoList();
 let controller = new Controller(newTodoList);
-let todoChanging = new Todo();
+let todoInstance = new Todo();
 
 controller.buttonsListeners();
-todoChanging.changeIsDone();
+todoInstance.changeIsDone();
 
 
 document.addEventListener('DOMContentLoaded', function (){

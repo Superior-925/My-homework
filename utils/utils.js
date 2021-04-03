@@ -4,43 +4,22 @@ function getRandomIntInclusive(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min); //The maximum is inclusive and the minimum is inclusive
 }
 
-//delete selected to-do and hide buttons if not have todos after tap deleteSelectedButton
+// show / hide buttons depending on the state of todos array
 
-let deleteCompletedButton = document.getElementById('delete-completed-button');
-let deleteAllButton = document.getElementById('delete-all-button');
-let showAllTodosButton = document.getElementById('show-all-todos-button');
-let showCompletedTodosButton = document.getElementById('show-completed-todos-button');
-let showNotCompletedTodosButton = document.getElementById('show-not-completed-todos-button');
+let buttons = document.getElementById('buttons');
 
 function hideButtons() {
     if (controller.todoList.todos.length == 0) {
-        deleteCompletedButton.setAttribute('button-display', 'display-none');
-        deleteAllButton.setAttribute('button-display', 'display-none');
-        showAllTodosButton.setAttribute('button-display', 'display-none');
-        showCompletedTodosButton.setAttribute('button-display', 'display-none');
-        showNotCompletedTodosButton.setAttribute('button-display', 'display-none');
+        buttons.classList.add('display-style-none');
     }
 }
 
-//----------------------------------------
-
-// show / hide buttons depending on the state of todos array or
-// add todos after refresh the page
-
 function showHideButtons() {
     if (controller.todoList.todos.length == 0) {
-        deleteCompletedButton.setAttribute('button-display', 'display-none');
-        deleteAllButton.setAttribute('button-display', 'display-none');
-        showAllTodosButton.setAttribute('button-display', 'display-none');
-        showCompletedTodosButton.setAttribute('button-display', 'display-none');
-        showNotCompletedTodosButton.setAttribute('button-display', 'display-none');
+        buttons.classList.add('display-style-none');
     }
     else {
-        deleteCompletedButton.removeAttribute('button-display');
-        deleteAllButton.removeAttribute('button-display');
-        showAllTodosButton.removeAttribute('button-display');
-        showCompletedTodosButton.removeAttribute('button-display');
-        showNotCompletedTodosButton.removeAttribute('button-display');
+        buttons.classList.remove('display-style-none');
     }
 }
 

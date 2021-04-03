@@ -11,4 +11,4 @@ var config = {
     host: "devdemo",
     port: "5555"
   }
-}
+};

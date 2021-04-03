@@ -50,7 +50,7 @@ router.delete('/todos', function(req, res) {
     }});
 });
 
-router.put('/isDone', function(req, res) {
+router.put('/todo/id', function(req, res) {
 
   fileStorage.readFile('./data/todos.json', function read(err, data) {
     if (err) {
@@ -75,7 +75,7 @@ router.put('/isDone', function(req, res) {
   });
 });
 
-router.delete('/selected-todos', function(req, res) {
+router.delete('/todos/ids', function(req, res) {
 
   fileStorage.readFile('./data/todos.json', function read(err, data) {
     if (err) {
@@ -85,15 +85,9 @@ router.delete('/selected-todos', function(req, res) {
 
     content = JSON.parse(content);
 
-    let arr = content;
-
-    function removeElementByStatus(arr, isDone){
-      return arr.filter( e => e.isDone !== true );
-    }
-
-    arr = removeElementByStatus(arr, true);
-
-    content = arr;
+    content = content.filter(function(item){
+      return req.body.indexOf(item.id) == -1;
+    });
 
     fileStorage.unlink('./data/todos.json', function(err) {
       if (err) {
