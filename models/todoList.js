@@ -6,42 +6,38 @@ class TodoList {
 
     addTodo(newTodo) {
         this.todos.push(newTodo);
-        let dataPost = JSON.stringify(newTodo);
-
-        fetch(`http://${config.development.host}:${config.development.port}/todos`, {
-            method: 'post',
-            headers: {
-                'Accept': 'application/json, text/plain, */*',
-                'Content-Type': 'application/json'
-            },
-            body: dataPost
-        }).then(res => res.json());
         controller.renderList();
     }
 
     deleteAllTodos() {
         this.todos.length = 0;
 
-        fetch(`http://${config.development.host}:${config.development.port}/todos`, {
-            method: 'delete',
-            headers: {
-                'Accept': 'application/json, text/plain, */*',
-                'Content-Type': 'application/json'
-            },
-            body: ''
-        }).then(res => res.json());
+        db.collection("todos")
+            .get()
+            .then(res => {
+                res.forEach(element => {
+                    element.ref.delete();
+                });
+            });
+
         controller.renderList();
     }
 
     deleteCompletedTodos() {
 
-        function removeElementByStatus(arr, isDone) {
+        function filteringByTrueStatus(arr, isDone) {
             return arr.filter(e => e.isDone == true);
         }
 
-        let completedTodos = removeElementByStatus(this.todos, true);
+
+        let completedTodos = filteringByTrueStatus(this.todos, true);
         let completedIds = [];
         completedTodos.forEach(element => completedIds.push(element.id));
+
+        for (let i = 0; i < completedIds.length; i++) {
+
+            db.collection("todos").doc(`${completedIds[i]}`).delete();
+        }
 
         for (let i = 0; i < this.todos.length; i++) {
             let arr = this.todos;
@@ -54,34 +50,24 @@ class TodoList {
             controller.renderList();
         }
 
-        // request on server for deleting selected todos by sended ids
-
-        fetch(`http://${config.development.host}:${config.development.port}/todos/ids`, {
-            method: 'delete',
-            headers: {
-                'Accept': 'application/json, text/plain, */*',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(completedIds)
-        }).then(res => res.json());
-
         hideButtons();
     }
 
     refreshPage() {
-        fetch(`http://${config.development.host}:${config.development.port}/todos`)
-            .then(response => response.json())
-            .then(json => {
-                for (let i = 0; i<json.length; i++) {
-                    let data = json[i];
-                    this.todos.push(new Todo(data.taskText, data.id, data.isDone));
-                    controller.renderList(ALL_TASK);
-                }
-                hideButtons();
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-            });
+
+        db.collection("todos").get().then((snapshot) => {
+            const data = snapshot.docs.map((doc) => ({
+                id: doc.id,
+                ...doc.data(),
+            }));
+
+            for (let i = 0; i<data.length; i++) {
+                let value = data[i];
+                this.todos.push(new Todo(value.taskText, value.id, value.isDone));
+            }
+            controller.renderList(ALL_TASK);
+            hideButtons();
+        });
     }
 
 

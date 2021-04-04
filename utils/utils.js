@@ -3,6 +3,7 @@ function getRandomIntInclusive(min, max) {
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min + 1) + min); //The maximum is inclusive and the minimum is inclusive
 }
+// let id = new Date().getTime() + getRandomIntInclusive(1, 10000);
 
 // show / hide buttons depending on the state of todos array
 

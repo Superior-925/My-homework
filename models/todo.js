@@ -13,13 +13,10 @@ class Todo {
             let currentTodo = controller.todoList.findInstanceById(id);
             currentTodo.isDone = !currentTodo.isDone;
 
-            fetch(`http://${config.development.host}:${config.development.port}/todo/id`, {
-                method: 'put',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({'id': id})
+            db.collection("todos").doc(`${id}`).update({
+                isDone : currentTodo.isDone
             });
+
             controller.renderList();
             evt.stopPropagation();
         });

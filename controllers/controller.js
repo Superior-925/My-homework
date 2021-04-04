@@ -2,6 +2,21 @@ const ALL_TASK = 0;
 const NOT_COMPLETED_TASK = 1;
 const COMPLETED_TASK = 2;
 
+// Your web app's Firebase configuration
+var firebaseConfig = {
+    apiKey: "AIzaSyAq382Ae0ZziDo2fc-c3lilyBIhLn4m0rA",
+    authDomain: "todoapp-cd2ba.firebaseapp.com",
+    projectId: "todoapp-cd2ba",
+    storageBucket: "todoapp-cd2ba.appspot.com",
+    messagingSenderId: "1055110831952",
+    appId: "1:1055110831952:web:eae10dd6081b18517c5655"
+};
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+db.settings({ timestampsInSnapshots: true });
+
+
 class Controller {
     constructor(todoList) {
         this.todoList = todoList;
@@ -15,12 +30,16 @@ class Controller {
                 alert("Enter the tasks text!");
                 return;
             }
+
             let id = new Date().getTime() + getRandomIntInclusive(1, 10000);
 
             let newTodo = new Todo(inputValue, id, false);
-
             this.todoList.addTodo(newTodo);
 
+            db.collection("todos").doc(`${id}`).set({
+                taskText: inputValue,
+                isDone: false
+            });
             showHideButtons();
         });
     };
