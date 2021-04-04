@@ -15,7 +15,8 @@ class TodoList {
                 'Content-Type': 'application/json'
             },
             body: dataPost
-        }).then(res => res.json());
+        });
+
         controller.renderList();
     }
 
@@ -29,17 +30,17 @@ class TodoList {
                 'Content-Type': 'application/json'
             },
             body: ''
-        }).then(res => res.json());
+        });
         controller.renderList();
     }
 
     deleteCompletedTodos() {
 
-        function removeElementByStatus(arr, isDone) {
+        function filteringByTrueStatus(arr, isDone) {
             return arr.filter(e => e.isDone == true);
         }
 
-        let completedTodos = removeElementByStatus(this.todos, true);
+        let completedTodos = filteringByTrueStatus(this.todos, true);
         let completedIds = [];
         completedTodos.forEach(element => completedIds.push(element.id));
 
@@ -63,7 +64,7 @@ class TodoList {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(completedIds)
-        }).then(res => res.json());
+        });
 
         hideButtons();
     }
